@@ -5,16 +5,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Oxygen:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Oxygen:wght@300&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./bsale-style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Bsale challenge</title>
 </head>
 
 <body>
-    <h1>Hola Bsale</h1>
-    <span class="material-icons">wine_bar</span>
+    <!--Navbar de la app-->
+    <nav class="navbar">
+        <label class="header-title">Bsale challenge</label>
+        <div style="display: flex; align-content: center;">
+            <input class="input-search" type="text" placeholder="Buscar producto por nombre" />
+            <button class="btn-search">
+                <span class="material-icons md-dark">search</span>
+            </button>
+        </div>
 
+        <button class="btn-shopping">
+            <span class="material-icons md-light">shopping_cart</span>
+        </button>
+    </nav>
+    <ul id="categories">
+        <li><a class="active" onclick="getProducts()">Todo</a></li>
+        <li><a onclick="getProductosCategory('cerveza')">Cervezas</a></li>
+        <li><a onclick="getProductosCategory('pisco')">Pisco</a></li>
+        <li><a onclick="getProductosCategory('vodka')">Vodka</a></li>
+        <li><a onclick="getProductosCategory('ron')">Ron</a></li>
+        <li><a onclick="getProductosCategory('bebida')">Bebidas</a></li>
+        <li><a onclick="getProductosCategory('bebida energetica')">Energeticas</a></li>
+        <li><a onclick="getProductosCategory('snack')">Snacks</a></li>
+    </ul>
+
+    <!--Contenido de la app-->
+    <div class="content">
+        <h1 class="title">Ofertas</h1>
+        <h1 class="title">Productos</h1>
+        <h3>filtros</h3>
+        <div class="product-container"></div>
+        <div class="pagination"></div>
+    </div>
+
+
+
+    <footer>
+        <p>Author: Mauricio Carvajal Díaz</p>
+        <a href="https://github.com/mauricarvdiaz/BS-challenge">github.com/mauricarvdiaz/BS-challenge</a>
+      </footer>
     <script src="./bsale.js"></script>
 </body>
 

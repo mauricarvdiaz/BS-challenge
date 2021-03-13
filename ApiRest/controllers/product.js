@@ -28,7 +28,7 @@ const controller = {
     //Filtro de productos por categoria.
     productFilterByCategory: (req, res) => {
         const categorySearch = req.params.category;
-        const sql = 'Select product.name As name, category.name As category From product Inner Join category On product.category = category.id Where category.name = ?';
+        const sql = 'Select product.name As name, category.name As category, product.url_image, product.price, product.discount From product Inner Join category On product.category = category.id Where category.name = ?';
 
         conexion.query(sql, [categorySearch], (err, results) => {
             if(err) throw err;
