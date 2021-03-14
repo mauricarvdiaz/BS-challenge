@@ -12,4 +12,4 @@ _Bsale challenge es el nombre que he escogido para el proyecto de postulación p
     
 ## Despliegue 📦
 
-_El despliegue de la aplicación se realizó en Heroku_
+_El despliegue de la aplicación se realizó en Heroku_ [Link](https://bsalechallenge.herokuapp.com/)
