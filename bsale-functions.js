@@ -1,6 +1,6 @@
 const url = 'http://localhost:3900/api/';
 let products = [];
-let products_length;
+let products_length = 0;
 let pageNumber = 1;
 let pageSize = 12;
 
@@ -11,9 +11,10 @@ if ('loading' in HTMLImageElement.prototype) {
 }
 
 //Selectores
-const searchButton = document.querySelector('.btn-search');
-searchButton.addEventListener('click', search);
+//const searchButton = document.querySelector('.btn-search');
+//searchButton.addEventListener('click', search);
 
+/**Funcion que controla el boton activo de las categorias */
 function categoryActive(category) {
     const listCategories = document.querySelector('#categories');
     listCategories.childNodes.forEach(node => {
@@ -53,7 +54,7 @@ function categoryActive(category) {
 //Funcion que realiza una consulta a la api, obtiene los productos de una categoria.
 function getProductosCategory(category) {
     categoryActive(category);
-
+    starStopLoader(true);
     fetch(url + 'filterCategory/'+category)
         .then(response => response.json())
         .catch(error => {
@@ -73,38 +74,40 @@ function getProductosCategory(category) {
 //Funcion que realiza una consulta a la apiRest, obtiene todos los productos.
 function getProducts() {
     categoryActive('todo')
+    starStopLoader(true);
     fetch(url+'productos')
         .then(response => response.json())
         .catch(error => {
-            console.log('Un error ha ocurrido 1' + error.message);
+            //console.log('Un error ha ocurrido 1' + error.message);
+            starStopLoader(false);
+            showAlert(true, 'error');
         })
         .then(data => {
-            products = data;
-            products_length = data.length;
+            if(data) {
+                products = data;
+                products_length = data.length;
+            }
             pageNumber = 1;
             showProducts();
         })
         .catch(error => {
             console.log('Un error ha ocurrido 2' + error.message);
+            showAlert(true, 'error');
         });
 }
-//Se llama a la funcion cuando se inicia la app.
-getProducts();
 
-
-function search(event){
-    event.preventDefault();
-    console.log('buscando...')
+/**Funcion que consulta a la Api para realizar la busqueda de productos. */
+function search(){
+    showAlert(false, '');
     const productToSearch = document.querySelector('.input-search').value;
     console.log(productToSearch)
-    if(productToSearch === ''){
-        getProducts();
-    }
-    else{
+    if(productToSearch !== ''){
+        starStopLoader(true);
         fetch(url+`search/${productToSearch}`)
         .then(response => response.json())
         .catch(error => {
             console.log('Un error ha ocurrido 1' + error.message);
+            showAlert(true, 'error');
         })
         .then(data => {
             products = data;
@@ -114,35 +117,38 @@ function search(event){
         })
         .catch(error => {
             console.log('Un error ha ocurrido 2' + error.message);
+            showAlert(true, 'error');
         });
     }
-
 }
 
-
-
+/**Funcion para crear una paginación de los productos */
 function paginate(array, page_size, page_number){
     return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
 
+/**Funcion que cambia a una pagina seleccionada en la paginación.*/
 function numberPage(page) {
     pageNumber = page;
     showProducts();
 }
 
+/**Funcion que avanza una pagina de la paginación de los productos. */
 function nextPage() {
     console.log('next');
     pageNumber++;
     showProducts();
 }
+
+/**Funcion que retrocede una pagina de la paginación de los productos. */
 function previusPage() {
     console.log('previus');
     pageNumber--;
     showProducts();
 }
 
+/**Funcion que agrega los botones de la paginación en la vista. Se crea a partir de la cantidad de paginas que tiene la paginación.*/
 function createPagination(pageCont) {
-    
     let paginationButtons = '';
     const pagination = document.querySelector('.pagination');
     paginationButtons += pageNumber > 1 ? `<button class="btn-pagination" onclick="previusPage()">
@@ -157,19 +163,23 @@ function createPagination(pageCont) {
     paginationButtons += pageNumber < pageCont ?    `<button class="btn-pagination" onclick="nextPage()">Siguiente
                                                         <span s class="material-icons">chevron_right</span>
                                                     </button>` : '';
-
     pagination.innerHTML = '';
     pagination.innerHTML = paginationButtons;
-
 }
 
+/**Funcion que mustra los productos en la vista. Se crean los elementos necesarios que muestran el titulo, imagen, precio, etc. de los productos */
 function showProducts() {
+    showAlert(false, '')
     const productContainer = document.querySelector('.product-container');
     const pagination = paginate(products, pageSize, pageNumber);
     pageCont = Math.ceil(products_length/pageSize);
     
-
     productContainer.innerHTML = "";
+
+    if(products_length === 0) {
+        showAlert(true, 'empty');
+    }
+
     pagination.forEach(product => {
         const card = document.createElement('div');
 
@@ -209,7 +219,64 @@ function showProducts() {
         productContainer.appendChild(card);
         createPagination(pageCont);
     })
+
+    starStopLoader(false);
+}
+
+/**Funcion que ordena los productos de acuerdo a la opción seleccionada en el select. */
+function ordenProducts() {
+    const optionSelect = document.querySelector('#orden');
+ 
+    /**Ordenar por nombre */
+    if(optionSelect.selectedIndex === 0){
+        products.sort((a, b) => {
+            if(a.name > b.name) return 1;
+            if(a.name < b.name) return -1;
+            return 0;
+        })
+    }
+    /**Precio de menor a mayor */
+    else if(optionSelect.selectedIndex === 1){
+        products.sort((a, b) => {
+            if(a.price > b.price) return 1;
+            if(a.price < b.price) return -1;
+            return 0;
+        })
+    }
+    /**Precio de mayor a menor */
+    else if(optionSelect.selectedIndex === 2){
+        products.sort((a, b) => {
+            if(a.price < b.price) return 1;
+            if(a.price > b.price) return -1;
+            return 0;
+        })
+    }
+    /**Mayor a menor descuento */
+    else {
+        products.sort((a, b) => {
+            if(a.discount < b.discount) return 1;
+            if(a.discount > b.discount) return -1;
+            return 0;
+        })
+    }
+    showProducts();
+}
+
+/**Funcion que activa o desactiva el loader */
+function starStopLoader(val) {
+    const loader = document.querySelector('.lds-dual-ring');
+    /**Si val es true se activa el loader, si es false se oculta. */
+    val ? loader.style.display = 'block' : loader.style.display = 'none';     
+}
+
+/**Funcion que activa o desactiva la alerta */
+function showAlert(val, status) {
+    const alert = document.querySelector('.alert');
+    console.log(alert);
+    val ? alert.style.display = 'block' : alert.style.display = 'none';
+    if(status === 'empty')  alert.lastElementChild.innerHTML = innerHTML = 'Lo sentimos, no hay productos para mostrar.';
+    else alert.lastElementChild.innerHTML = innerHTML = 'Ha ocurrido un error, vuelve a intentarlo más tarde.';
 }
 
 
-
+getProducts();

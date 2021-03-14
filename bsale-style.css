@@ -20,6 +20,8 @@ body {
     color: white;
 }
 
+.material-icons.md-48 { font-size: 48px; }
+
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
@@ -111,7 +113,10 @@ li a:hover:not(.active) {
 .product-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
+    grid-template-rows: repeat(3, 340px);
+    grid-gap: 15px;
+    justify-content: stretch;
+    align-content: stretch;
 }
 
 .card {
@@ -119,8 +124,6 @@ li a:hover:not(.active) {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    width: 240px;
-    height: 340px;
     border: solid 1px #bbb;
 }
 
@@ -148,6 +151,10 @@ li a:hover:not(.active) {
     font-size: 15px;
     margin-top: 10px;
     background-color: var(--primary);
+}
+
+.btn-card:hover {
+    opacity: 0.7;
 }
 
 .discount{
@@ -195,3 +202,59 @@ footer {
     color: white;
     padding: 10px;
 }
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 10px;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.filter-container select {
+    width: 250px;
+    height: 40px;
+    border: solid 2px var(--primary);
+}
+
+.alert {
+    display: none;
+    grid-column-start: 1;
+    grid-column-end: 7;
+    height: fit-content;
+    text-align: center;
+    padding: 10px;
+    color: rgb(213, 16, 16);
+    border: rgb(213, 16, 16) 2px solid;
+}
+
+option {
+    color: white;
+    background-color: var(--primary);
+}
+
+.lds-dual-ring {
+    width: 80px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid var(--primary);
+    border-color: var(--primary) transparent var(--primary) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

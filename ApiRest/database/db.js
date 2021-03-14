@@ -1,3 +1,4 @@
+/**Conexion a la base de datos */
 const mysql = require('mysql');
 
 const conexion = mysql.createConnection({

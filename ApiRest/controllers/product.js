@@ -2,11 +2,12 @@
 
 const conexion = require('../database/db');
 
+/**Controlador para la tabla productos, es donde se hacen las consultas a la tabla Products. */
 const controller = {
 
     //Se obtienen todos los productos
     getProduct: (req, res) => {
-        const sql = 'Select * From product';
+        const sql = 'Select * From product Order By name ASC';
 
         conexion.query(sql, (err, results) => {
             if(err) throw err;
@@ -17,7 +18,7 @@ const controller = {
     //Se busca un producto por nombre.
     searchProduct: (req, res) => {
         const productSearch = '%'.concat(req.params.search.concat('%'));
-        const sql = "Select * From product Where name LIKE ?";
+        const sql = "Select * From product Where name LIKE ? Order By name ASC";
 
         conexion.query(sql, [productSearch], (err, results) => {
             if(err) throw err;
@@ -25,10 +26,10 @@ const controller = {
         })
     },
 
-    //Filtro de productos por categoria.
+    //Se buscan los productos de una categoria.
     productFilterByCategory: (req, res) => {
         const categorySearch = req.params.category;
-        const sql = 'Select product.name As name, category.name As category, product.url_image, product.price, product.discount From product Inner Join category On product.category = category.id Where category.name = ?';
+        const sql = 'Select product.name As name, category.name As category, product.url_image, product.price, product.discount From product Inner Join category On product.category = category.id Where category.name = ? Order By name ASC';
 
         conexion.query(sql, [categorySearch], (err, results) => {
             if(err) throw err;

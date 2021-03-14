@@ -9,6 +9,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="./bsale-style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <title>Bsale challenge</title>
 </head>
 
@@ -18,7 +19,7 @@
         <label class="header-title">Bsale challenge</label>
         <div style="display: flex; align-content: center;">
             <input class="input-search" type="text" placeholder="Buscar producto por nombre" />
-            <button class="btn-search">
+            <button class="btn-search" onclick="search()">
                 <span class="material-icons md-dark">search</span>
             </button>
         </div>
@@ -27,6 +28,7 @@
             <span class="material-icons md-light">shopping_cart</span>
         </button>
     </nav>
+    <!--Lista de las categorias-->
     <ul id="categories">
         <li><a class="active" onclick="getProducts()">Todo</a></li>
         <li><a onclick="getProductosCategory('cerveza')">Cervezas</a></li>
@@ -40,20 +42,39 @@
 
     <!--Contenido de la app-->
     <div class="content">
-        <h1 class="title">Ofertas</h1>
         <h1 class="title">Productos</h1>
-        <h3>filtros</h3>
+        <!--Seccion de filtros de los productos-->
+        <div class="filter-container">
+            <label>Ordenar por:</label>
+            <select name="orden" id="orden" onChange="ordenProducts()">
+                <option value="0">Nombre</option>
+                <option value="1">Precio menor a mayor</option>
+                <option value="2">Precio mayor a menor</option>
+                <option value="3">Con más descuento</option>
+            </select>
+        </div>
+        
+        <div class="lds-dual-ring"></div>
+        <div class="alert">
+            <span class="material-icons md-48">
+                error_outline
+                </span>
+            <h1></h1>
+        </div>
+        <!--Seccion que contiene los productos y paginacion. Se agregan por javascript-->
         <div class="product-container"></div>
         <div class="pagination"></div>
     </div>
 
-
-
+    <!--Seccion pie de pagina de la app-->
     <footer>
         <p>Author: Mauricio Carvajal Díaz</p>
-        <a href="https://github.com/mauricarvdiaz/BS-challenge">github.com/mauricarvdiaz/BS-challenge</a>
-      </footer>
-    <script src="./bsale.js"></script>
+        <a href="https://github.com/mauricarvdiaz/BS-challenge" target="_blank">Codigo fuente</a>
+    </footer>
+
+    <!--Se importan los script-->
+    <script src="./bsale-functions.js"></script>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </body>
 
 </html>
