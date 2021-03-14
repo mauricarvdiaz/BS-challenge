@@ -5,7 +5,7 @@ app.get('/', (req, res) => {
     res.send('hola');
 })
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log('server running!');
 });
 
