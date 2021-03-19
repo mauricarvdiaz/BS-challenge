@@ -2,7 +2,11 @@
 
 const conexion = require('../database/db');
 
-/**Controlador para la tabla productos, es donde se hacen las consultas a la tabla Products. */
+/**
+ * @Description Controlador para la tabla productos, es donde se hacen las consultas a la tabla Products. Se exporta el controlador para que pueda ser usado en ../routes/product 
+ *      - Cada funcion tiene una conslta sql, la execucion de la consulta y retorna el resultado obtenido.
+ * 
+ * */
 const controller = {
 
     //Se obtienen todos los productos
