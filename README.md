@@ -1,6 +1,6 @@
 # BS-challenge
 
-_Bsale challenge es el nombre que he escogido para el proyecto de postulación para Bsale_
+_Bsale challenge es el nombre que he escogido para el proyecto de postulación para Bsale._
 
 ## Construido con 🛠️
 
