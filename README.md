@@ -24,11 +24,11 @@ _Para poder usar la ApiRest_
 1. Ubicarse por consola en la carpeta ApiRest
 2. Para instalar las dependencias, ejecutar el comando.
 ```
-*npm install*
+npm install
 ```
 3. Para arrancar la Api, ejecutar el comando.
 ```
-*npm start*
+npm start
 ```
 
 _Para poder visualizar la aplicación, abrir con el navegador el archivo_
